@@ -19,14 +19,12 @@ function* signup({ payload }) {
   const { payload: response, ok } = yield Api.post('/auth/signup', payload.data);
   
   if (ok) {
-    if (!TokenStorage.get()) {
-      TokenStorage.save(response.payload)
-      yield put(auth.signupResponse(response.payload));
-      //yield put(push('/onboarding/register-'));
-    } else {
-      const err = new TypeError(response?.error? response.error: 'ERROR_SIGNUP')
-      yield put(auth.signupResponse(err))
-    }
+    TokenStorage.save(response.payload)
+    yield put(auth.signupResponse(response.payload));
+    //yield put(push('/onboarding/register-'));
+  } else {
+    const err = new TypeError(response?.error? response.error: 'ERROR_SIGNUP')
+    yield put(auth.signupResponse(err))
   }
 }
 function* resetPassword(data) {
@@ -50,7 +48,12 @@ function* changePassword(data) {
 }
 
 function* logout() {
-  TokenStorage.remove();
+  yield TokenStorage.remove();
+}
+
+function* isLogged(){
+  const isToken = yield TokenStorage.isToken()
+  yield put(auth.setLogged(isToken))
 }
 
 function* ActionWatcher() {
@@ -59,6 +62,7 @@ function* ActionWatcher() {
   yield takeLatest(auth.logout, logout)
   yield takeLatest(auth.resetPassword, resetPassword)
   yield takeLatest(auth.changePassword, changePassword)
+  yield takeLatest(auth.isLogged, isLogged)
 }
 
 export default function* rootSaga() {

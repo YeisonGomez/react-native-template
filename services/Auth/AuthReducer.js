@@ -2,18 +2,19 @@ import { handleActions } from 'redux-actions';
 import * as TokenStorage from '../../common/storage/Token';
 
 export const INITIAL_STATE = {
-  authentication: TokenStorage.isToken(),
+  authentication: false,
   loading: false,
   error: {
     login: undefined,
     signup: undefined
-  },
-  finishSignup: false
+  }
 }
 
 const reducer = handleActions({
   AUTH: {
-    LOGIN: (state, { payload: { } }) => ({ ...state, loading: true, error: { ...state.error, login: false } }),
+    LOGIN: (state, { payload: { } }) => ({ 
+      ...state, loading: true, error: { ...state.error, login: false } 
+    }),
     LOGIN_RESPONSE: {
       next(state, { payload: { token } }) {
         return { ...state, token, authentication: true, loading: false }
@@ -23,13 +24,15 @@ const reducer = handleActions({
       }
     },
 
-    SIGNUP: (state, { payload: { } }) => ({ ...state, loading: true, error: { ...state.error, login: false } }),
+    SIGNUP: (state, { payload: { } }) => ({ 
+      ...state, loading: true, error: { ...state.error, signup: false } 
+    }),
     SIGNUP_RESPONSE: {
-      next(state, { payload: {  } }) {
+      next(state, { payload: { } }) {
         return { ...state, authentication: true, loading: false }
       },
       throw(state, { payload: { message } }) {
-        return { ...state, error: { ...state.error, signup: message }, message, loading: false }
+        return { ...state, error: { ...state.error, signup: message }, loading: false }
       }
     },
 
@@ -54,6 +57,8 @@ const reducer = handleActions({
     },
 
     LOGOUT: (state, { payload: { } }) => ({ ...state, authentication: false }),
+
+    SET_LOGGED: (state, { payload: { auth } }) => ({ ...state, authentication: auth? auth: false }),
   }
 },
   INITIAL_STATE

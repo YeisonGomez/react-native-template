@@ -10,13 +10,16 @@ const button = {
 }
 
 const error = {
+  required: 'Todos los campos son requeridos',
   login: {
-    required: 'Todos los campos son requeridos',
     ERROR_LOGIN: 'Lo sentimos tenemos un problema, intentelo más tarde',
     USER_NOT_EXIST: 'El usuario no existe',
     IS_NOT_CLIENT: 'Este usuario no es un cliente',
     CLIENT_INACTIVE: 'Cliente inactivo',
     USER_INACTIVE: 'Usuario inactivo',
+  },
+  signup: {
+    EMAIL_IN_USE: 'Este correo ya existe'
   }
 }
 

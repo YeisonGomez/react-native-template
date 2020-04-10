@@ -1,2 +1,2 @@
 export const ENV = "local";
-export const API_URL = "http://192.168.0.4:4216/v1";
+export const API_URL = "http://192.168.0.7:4216/v1";

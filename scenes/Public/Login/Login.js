@@ -40,7 +40,7 @@ const Login = ({ match, form }) => {
           )}
         </Item>
 
-        {isFormError && <Text>{i18n.t('error.login.required')}</Text>}
+        {isFormError && <Text>{i18n.t('error.required')}</Text>}
         {error.login && !isFormError && <Text>{i18n.t('error.login.' + error.login)}</Text>}
 
         <Button success onPress={submit}>

@@ -19,5 +19,5 @@ export const remove = async() => {
 }
 
 export const isToken = async() => {
-  return await AsyncStorage.getItem(key);
+  return (await AsyncStorage.getItem(key)) !== undefined;
 }

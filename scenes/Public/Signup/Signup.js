@@ -11,10 +11,22 @@ import { utilities as utilActions } from '../../../services/Utilities/UtilitiesA
 import PickerSelect from '../../../components/PickerSelect/PickerSelect'
 import FormItem from '../../../components/FormItem/FormItem'  
  
+const initialValuesDev = {
+  name: 'Yeison',
+  lastname: 'Gomez',
+  phone: '2174760746',
+  country: 'Colombia',
+  city: 'Bogotá',
+  language: 'es',
+  email: 'yeisom40@gmail.com',
+  password: '12345',
+  repitPassword: '12345'
+}
+
 const Signup = ({ form }) => {
   const dispatch = useDispatch()
-  const { getFieldDecorator, setFieldsValue, validateFields, getFieldValue, isFieldValidating, getFieldError, getFieldsError } = form;
-
+  const { getFieldDecorator, setFieldsValue, validateFields, getFieldValue, getFieldError, setFieldsInitialValue } = form;
+  
   const { countrys, citys } = useSelector(state => state.utilities)
   const { loading, error } = useSelector(state => state.auth)
   const [isFormError, setFormError] = useState()
@@ -23,6 +35,10 @@ const Signup = ({ form }) => {
 
   useEffect(() => {
     dispatch(utilActions.getCountrys())
+
+    if(__DEV__)
+      setFieldsInitialValue(initialValuesDev)
+
   }, [])
 
   const submit = (e) => {
@@ -39,7 +55,8 @@ const Signup = ({ form }) => {
 
   const onCountryChange = (country) => {
     setFieldsValue({ country })
-    dispatch(utilActions.getCitys(country.objectId))
+    const countryObject = countrys.find(item => item.name === country)
+    dispatch(utilActions.getCitys(countryObject.objectId))
   }
 
   const onTermsChange = () => {
@@ -87,7 +104,7 @@ const Signup = ({ form }) => {
               selectedValue={getFieldValue('country')}
               onValueChange={onCountryChange}
               items={countrys.map(country =>
-                <Picker.Item label={country.emoji + ' ' + country.name} value={country} />
+                <Picker.Item label={country.emoji + ' ' + country.name} value={country.name} />
               )}
             />
           }
@@ -103,23 +120,7 @@ const Signup = ({ form }) => {
               selectedValue={getFieldValue('city')}
               onValueChange={(city) => setFieldsValue({ city })}
               items={citys.map(city =>
-                <Picker.Item label={city.name} value={city.cityId} />
-              )}
-            />
-          }
-        />
-
-        <FormItem regular
-          form={form}
-          keyForm='language'
-          options={{ rules: [{ required: true }] }}
-          input={
-            <PickerSelect
-              placeholder={i18n.t('label.language')}
-              selectedValue={getFieldValue('language')}
-              onValueChange={(language) => setFieldsValue({ language })}
-              items={LANGUAGES.map(lng =>
-                <Picker.Item label={i18n.t('language.' + lng)} value={lng} />
+                <Picker.Item label={city.name} value={city.name} />
               )}
             />
           }
@@ -199,8 +200,8 @@ const Signup = ({ form }) => {
           {getFieldError('terms') && <Icon name='close-circle' />}
         </Item>
 
-        {isFormError && <Text>{i18n.t('error.login.required')}</Text>}
-        {error.login && !isFormError && <Text>{i18n.t('error.login.' + error.login)}</Text>}
+        {isFormError && <Text>{i18n.t('error.required')}</Text>}
+        {error?.signup && !isFormError && <Text>{i18n.t('error.signup.' + error.signup)}</Text>}
 
         <Button success onPress={submit}>
           {loading && <Spinner color='green' />}

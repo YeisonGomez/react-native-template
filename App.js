@@ -4,19 +4,19 @@ import { SplashScreen } from 'expo';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 import { createStackNavigator } from '@react-navigation/stack';
-import { Provider } from 'react-redux';
+import { Provider, useDispatch } from 'react-redux';
 
 import useLinking from './navigation/useLinking';
 import initStore from './store/Store';
 import { Main } from './Main'
 
 export const store = initStore();
-const Stack = createStackNavigator();
 
 YellowBox.ignoreWarnings(['Require cycle:']);
 console.error = (error) => error.apply;
 
 export default function App(props){
+
   const [isLoadingComplete, setLoadingComplete] = useState(false);
   const [initialNavigationState, setInitialNavigationState] = useState();
   const containerRef = useRef();

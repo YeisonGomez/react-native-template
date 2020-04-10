@@ -15,5 +15,8 @@ export const { auth } = createActions({
     CHANGE_PASSWORD_RESPONSE: (success) => ({ success }),
 
     LOGOUT: () => ({ }),
+
+    IS_LOGGED: () => ({ }),
+    SET_LOGGED: (auth) => ({ auth }),
   }
 })

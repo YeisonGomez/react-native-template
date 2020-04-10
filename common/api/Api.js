@@ -7,7 +7,7 @@ export class Api {
 
   post(url, data, formData) {
     let dataBody
-
+    
     if(formData){
       dataBody = new FormData();
       Object.keys(data).map(key => {
