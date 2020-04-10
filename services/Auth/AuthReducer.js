@@ -5,7 +5,8 @@ export const INITIAL_STATE = {
   authentication: TokenStorage.isToken(),
   loading: false,
   error: {
-    login: false
+    login: undefined,
+    signup: undefined
   },
   finishSignup: false
 }
@@ -17,18 +18,18 @@ const reducer = handleActions({
       next(state, { payload: { token } }) {
         return { ...state, token, authentication: true, loading: false }
       },
-      throw(state, { error, payload: { message } }) {
+      throw(state, { payload: { message } }) {
         return { ...state, error: { ...state.error, login: message } , loading: false }
       }
     },
 
-    SIGNUP: (state, { payload: { } }) => ({ ...state, loading: true, error: false }),
+    SIGNUP: (state, { payload: { } }) => ({ ...state, loading: true, error: { ...state.error, login: false } }),
     SIGNUP_RESPONSE: {
       next(state, { payload: {  } }) {
         return { ...state, authentication: true, loading: false }
       },
-      throw(state, { error, payload: { message } }) {
-        return { ...state, error, message, loading: false }
+      throw(state, { payload: { message } }) {
+        return { ...state, error: { ...state.error, signup: message }, message, loading: false }
       }
     },
 

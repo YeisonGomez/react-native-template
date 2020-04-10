@@ -1,11 +1,17 @@
+const language = {
+  es: 'Español',
+  en: 'Ingles'
+}
+
 const button = {
   login: 'Iniciar sesión',
-  signup: 'Registrarse'
+  signup: 'Registrarse',
+  back: 'Atrás',
 }
 
 const error = {
   login: {
-    required: 'Los campos son requeridos',
+    required: 'Todos los campos son requeridos',
     ERROR_LOGIN: 'Lo sentimos tenemos un problema, intentelo más tarde',
     USER_NOT_EXIST: 'El usuario no existe',
     IS_NOT_CLIENT: 'Este usuario no es un cliente',
@@ -14,7 +20,25 @@ const error = {
   }
 }
 
+const label = {
+  email: 'Correo',
+  password: 'Contraseña',
+  repitPassword: 'Repitir contraseña',
+  name: 'Nombres',
+  lastname: 'Apellidos',
+  phone: 'Celular',
+  city: 'Ciudad',
+  country: 'País',
+  language: 'Idioma',
+  accountXmQuestion: '¿Tienes cuenta de XM?',
+  why: '¿Cual?',
+  selectItem: 'Seleccionar',
+  terms: 'Políticas y acuerdos de privacidad'
+}
+
 export default {
   button,
-  error
+  error,
+  label,
+  language
 }

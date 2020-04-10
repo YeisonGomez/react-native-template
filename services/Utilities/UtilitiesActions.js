@@ -6,12 +6,10 @@ export const { utilities } = createActions({
     LANGUAGE: () => ({}),
     LANGUAGE_RESPONSE: (languages) => ({ languages }),
 
-    GET_COUNTRY: () => ({}),
-    GET_COUNTRY_RESPONSE: (countrys) => ({ countrys }),
+    GET_COUNTRYS: () => ({}),
+    GET_COUNTRYS_RESPONSE: (countrys) => ({ countrys }),
 
-    GET_CITYS: (countryName) => ({countryName}),
-    GET_CITYS_RESPONSE: (citys) => ({ citys }),
-
+    GET_CITYS: (countryId) => ({countryId}),
+    GET_CITYS_RESPONSE: (citys) => ({ citys })
   }
-
 })

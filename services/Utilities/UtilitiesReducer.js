@@ -4,7 +4,11 @@ export const INITIAL_STATE = {
   languages: [],
   loading: false,
   countrys: [],
-  citys: []
+  citys: [],
+  error: {
+    getCountrys: false,
+    getCities: false
+  }
 }
 
 const reducer = handleActions({
@@ -20,23 +24,27 @@ const reducer = handleActions({
       }
     },
 
-    GET_COUNTRY: (state, { payload: { } }) => ({ ...state, loading: true }),
-    GET_COUNTRY_RESPONSE: {
+    GET_COUNTRYS: (state, { payload: { } }) => ({ 
+      ...state, loading: true, error: { ...state.error, getCountrys: false } 
+    }),
+    GET_COUNTRYS_RESPONSE: {
       next(state, { payload: { countrys } }) {
         return { ...state, countrys, loading: false}
       },
       throw(state, action) {
-        return { ...state, loading: false }
+        return { ...state, error: { ...state.error, getCountrys: true }, loading: false }
       }
     },
 
-    GET_CITYS: (state, { payload: { } }) => ({ ...state, citys: [], loading: true }),
+    GET_CITYS: (state, { payload: { } }) => ({ 
+      ...state, citys: [], loading: true, error: { ...state.error, getCities: false } 
+    }),
     GET_CITYS_RESPONSE: {
       next(state, { payload: { citys } }) {
         return { ...state, citys, loading: false }
       },
       throw(state, action) {
-        return { ...state, loading: false }
+        return { ...state, error: { ...state.error, getCities: true }, loading: false }
       }
     }
 

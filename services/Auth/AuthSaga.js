@@ -24,7 +24,7 @@ function* signup({ payload }) {
       yield put(auth.signupResponse(response.payload));
       //yield put(push('/onboarding/register-'));
     } else {
-      const err = new TypeError(`${response.error}`)
+      const err = new TypeError(response?.error? response.error: 'ERROR_SIGNUP')
       yield put(auth.signupResponse(err))
     }
   }

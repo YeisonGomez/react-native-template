@@ -27,11 +27,11 @@ export default function App(props){
       try {
         SplashScreen.preventAutoHide();
         setInitialNavigationState(await getInitialState());
-
+        
         await Font.loadAsync({
           ...Ionicons.font,
           Roboto: require('native-base/Fonts/Roboto.ttf'),
-          Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
+          Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf')
         });
       } catch (e) {
         console.warn(e);

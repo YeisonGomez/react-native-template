@@ -13,39 +13,52 @@ function* Languages() {
 }
 
 function* Countrys() {
-  /*Parse.serverURL = 'https://parseapi.back4app.com'; // This is your Server URL
-  Parse.initialize(
-    'EWCNCcp2C0ECu60ESLCxQ2CvliRCcmZ94hGdWeq8', // This is your Application ID
-    'xL9M2IPq28EEpaRwrVi1QtKVAhFYPjJr4owFLpT8', // This is your Javascript key
+  const response = yield fetch(
+    'https://parseapi.back4app.com/classes/Country?limit=1000&order=name',
+    {
+      headers: {
+        'X-Parse-Application-Id': 'mxsebv4KoWIGkRntXwyzg6c6DhKWQuit8Ry9sHja', // This is the fake app's application id
+        'X-Parse-Master-Key': 'TpO0j3lG2PmEVMXlKYQACoOXKQrL3lwM0HwR9dbH', // This is the fake app's readonly master key
+      }
+    }
   );
 
-  const Continentscountriescities_City = Parse.Object.extend('Continentscountriescities_Country');
-  const query = new Parse.Query(Continentscountriescities_City);
-  query.limit(255)
-  const results = yield query.find() 
+  const data = yield response.json();
 
-  if (results.length > 0) {
-    yield put(utilities.getCountryResponse(results));
+  if (data?.results) {
+    yield put(utilities.getCountrysResponse(data.results));
   } else {
-    const err = new TypeError('ERROR_LOGIN')
-    yield put(utilities.getCountryResponse(err))
-  }*/
+    const err = new TypeError('ERROR_GET_COUNTRYS')
+    yield put(utilities.getCountrysResponse(err))
+  }
 }
 
-function* getCitys(data) {
-  const countryObject = Parse.Object.extend('Continentscountriescities_Country');
-  const queryCountry = new Parse.Query(countryObject);
-  queryCountry.equalTo('name', data.payload.countryName)
-  const country = yield queryCountry.find()
+function* getCitys({ payload }) {
+  const where = encodeURIComponent(JSON.stringify({
+    "country": {
+      "__type": "Pointer",
+      "className": "Country",
+      "objectId": payload.countryId,
+    },
+    "population": {
+      "$gt": 10000 //Population >= 2000
+    }
+  }));
 
-  const citysObject = Parse.Object.extend('Continentscountriescities_City');
-  const query = new Parse.Query(citysObject);
-  query.limit(10000)
-  query.equalTo("country", country[0]);
-  const resultsCitys = yield query.find()
-  
-  if (resultsCitys.length > 0) {
-    yield put(utilities.getCitysResponse(resultsCitys));
+  const response = yield fetch(
+    `https://parseapi.back4app.com/classes/City?count=1&limit=1000&order=name&where=${where}`,
+    {
+      headers: {
+        'X-Parse-Application-Id': 'mxsebv4KoWIGkRntXwyzg6c6DhKWQuit8Ry9sHja', // This is the fake app's application id
+        'X-Parse-Master-Key': 'TpO0j3lG2PmEVMXlKYQACoOXKQrL3lwM0HwR9dbH', // This is the fake app's readonly master key
+      }
+    }
+  );
+
+  const data = yield response.json()
+
+  if (data?.results) {
+    yield put(utilities.getCitysResponse(data.results));
   } else {
     const err = new TypeError('ERROR_GET_CITYS')
     yield put(utilities.getCitysResponse(err))
@@ -54,7 +67,7 @@ function* getCitys(data) {
 
 function* ActionWatcher() {
   yield takeLatest(utilities.language, Languages)
-  yield takeLatest(utilities.getCountry, Countrys)
+  yield takeLatest(utilities.getCountrys, Countrys)
   yield takeLatest(utilities.getCitys, getCitys)
 }
 

@@ -31,12 +31,12 @@ const Login = ({ match, form }) => {
       <Content>
         <Item regular>
           {getFieldDecorator('email', { rules: [{ required: true }] })(
-            <Input type="email" placeholder="Correo" onChangeText={email => setFieldsValue({ email })} />
+            <Input type="email" placeholder={i18n.t('label.email')} onChangeText={email => setFieldsValue({ email })} />
           )}
         </Item>
         <Item regular>
           {getFieldDecorator('password', { rules: [{ required: true }] })(
-            <Input secureTextEntry placeholder="Contraseña" onChangeText={password => setFieldsValue({ password })} />
+            <Input secureTextEntry placeholder={i18n.t('label.password')} onChangeText={password => setFieldsValue({ password })} />
           )}
         </Item>
 
@@ -51,7 +51,7 @@ const Login = ({ match, form }) => {
         <Link to={`${match.url === '/' ? '' : match.url}/signup`} underlayColor="#f0f4f7">
           <Text>¡{i18n.t('button.signup')}!</Text>
         </Link>
-        
+
       </Content>
     </Container>
   )
