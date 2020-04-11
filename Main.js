@@ -14,5 +14,8 @@ export const Main = () => {
     dispatch(AuthActions.isLogged())
   }, [])
 
-  return false ? <Private /> : <Public />
+  if(authentication === undefined)
+    return null
+
+  return authentication ? <Private /> : <Public />
 }

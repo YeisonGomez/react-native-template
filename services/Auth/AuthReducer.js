@@ -2,7 +2,7 @@ import { handleActions } from 'redux-actions';
 import * as TokenStorage from '../../common/storage/Token';
 
 export const INITIAL_STATE = {
-  authentication: false,
+  authentication: undefined,
   loading: false,
   error: {
     login: undefined,

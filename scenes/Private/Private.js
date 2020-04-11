@@ -1,28 +1,44 @@
-import React, { useState, useRef, useLinking, useEffect } from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
-import { SplashScreen } from 'expo';
-import * as Font from 'expo-font';
-import { Ionicons } from '@expo/vector-icons';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet } from 'react-native';
+import { Container, Header, Content, Footer, FooterTab, Button, Icon, Text } from 'native-base';
+import { useDispatch } from 'react-redux';
 
-import BottomTabNavigator from '../../navigation/BottomTabNavigator';
-
-const Stack = createStackNavigator();
+import i18n from '../../i18n/i18n'
+import { auth as AuthActions } from '../../services/Auth/AuthActions'
 
 export default function Private(props) {
-  const containerRef = useRef();
-  const [initialNavigationState] = useState();
+
+  const dispatch = useDispatch()
+
+  const logout = () => {
+    dispatch(AuthActions.logout())
+  }
 
   return (
-    <View style={styles.container}>
-      {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-      <NavigationContainer ref={containerRef} initialState={initialNavigationState}>
-        <Stack.Navigator>
-          <Stack.Screen name="Root" component={BottomTabNavigator} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </View>
+    <Container>
+      <Header>
+        <Button onPress={logout}>
+          <Text>{i18n.t('button.logout')}</Text>
+        </Button>
+      </Header>
+      <Content />
+      <Footer>
+        <FooterTab>
+          <Button>
+            <Icon name="apps" />
+          </Button>
+          <Button>
+            <Icon name="camera" />
+          </Button>
+          <Button active>
+            <Icon active name="navigate" />
+          </Button>
+          <Button>
+            <Icon name="person" />
+          </Button>
+        </FooterTab>
+      </Footer>
+    </Container>
   );
 }
 

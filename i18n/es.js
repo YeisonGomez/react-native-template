@@ -7,6 +7,7 @@ const button = {
   login: 'Iniciar sesión',
   signup: 'Registrarse',
   back: 'Atrás',
+  logout: 'Cerrar sesión'
 }
 
 const error = {
