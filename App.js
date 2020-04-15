@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { YellowBox } from 'react-native';
 import { SplashScreen } from 'expo';
 import * as Font from 'expo-font';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import { Provider, useDispatch } from 'react-redux';
 
 import initStore from './store/Store';
@@ -24,9 +24,10 @@ export default function App(props){
         SplashScreen.preventAutoHide();
 
         await Font.loadAsync({
-          ...Ionicons.font,
           Roboto: require('native-base/Fonts/Roboto.ttf'),
-          Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf')
+          Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
+          ...Ionicons.font,
+          ...FontAwesome.font,
         });
         
       } catch (e) {
